@@ -12,10 +12,10 @@
   }
 
   .active-tab-portfolio {
-    @apply text-white bg-blue-500 px-6 py-2 rounded-lg transition-all duration-200;
+    @apply text-white bg-blue-500 px-6 py-2 rounded-full transition-all duration-200;
   }
 
   .inactive-tab-portfolio {
-    @apply text-gray-800 bg-white hover:bg-gray-100 px-6 py-2 rounded-lg transition-all duration-200;
+    @apply text-gray-800 bg-white hover:bg-gray-100 px-6 py-2 rounded-full transition-all duration-200;
   }
 }

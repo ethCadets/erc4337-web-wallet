@@ -28,7 +28,7 @@ export const TokensView: FC<ITokensView> = ({ walletAddress }) => {
   return (
     <>
       <p className="text-2xl font-semibold">{walletAddress}</p>
-      <div className="flex flex-col gap-y-4 mt-5 max-w-sm">
+      <div className="flex flex-col gap-y-4 mt-5 w-full">
         {balances.length > 0
           ? balances.map((balance) => (
               <div
