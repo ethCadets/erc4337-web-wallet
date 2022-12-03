@@ -1,8 +1,8 @@
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { FC, useState } from 'react';
-import { Button } from '../../components/Button';
-import { Layout } from '../../components/Layout';
+import { Button } from '../../../components/Button';
+import { Layout } from '../../../components/Layout';
 
 interface ISettingsCardProps {
   title: string;
@@ -30,6 +30,11 @@ const settingItems: ISettingsCardProps[] = [
     title: 'Dead Man Switch',
     description: 'Manage your DMS',
     route: '/unlocked/settings/dms',
+  },
+  {
+    title: 'Protocol specific security',
+    description: 'Manage your protocol specific security',
+    route: '/unlocked/settings/protocol-specific',
   },
 ];
 
