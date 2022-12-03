@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { FC, ReactNode, useContext } from 'react';
 import { GlobalContext } from '../contexts';
@@ -18,6 +19,17 @@ export const Layout: FC<ILayoutProps> = ({
 
   if (router.pathname === '/') {
     return <Landing />;
+  }
+
+  if (router.pathname.startsWith('/import')) {
+    return (
+      <div className="p-4 flex flex-col">
+        <a className="cursor-pointer underline" onClick={() => router.back()}>
+          Back
+        </a>
+        {children}
+      </div>
+    );
   }
 
   return (

@@ -6,7 +6,6 @@ export const getABI = async (contractAddress: string) => {
   const { abi } = await fetch(
     `/api/abi?contractAddress=${contractAddress}`
   ).then((res) => res.json());
-  console.log({ abi });
   return abi;
 };
 

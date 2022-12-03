@@ -1,9 +1,10 @@
 import { UserGroupIcon } from '@heroicons/react/24/solid';
 import { FiSend } from 'react-icons/fi';
 import { useRouter } from 'next/router';
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import { truncateWalletAddress } from '../utils';
 import { Button } from './Button';
+import { useBalance } from 'wagmi';
 
 interface IWalletCardProps {
   address: string;
@@ -12,6 +13,11 @@ interface IWalletCardProps {
 
 // a simple card that displays the tag, the truncated address and a dummy balance in dollars
 const WalletCard: FC<IWalletCardProps> = ({ address, tag }) => {
+  const { data: balance } = useBalance({
+    // @ts-expect-error
+    address,
+  });
+
   return (
     <div className="flex flex-col items-start justify-center p-4 space-y-2 bg-white border border-gray-300 rounded-md w-full">
       <div className="flex flex-col space-y-1">
@@ -21,7 +27,9 @@ const WalletCard: FC<IWalletCardProps> = ({ address, tag }) => {
         </p>
       </div>
       <div className="flex items-center justify-center space-x-1">
-        <p className="text-lg text-gray-800 font-normal">$0.00</p>
+        <p className="text-lg text-gray-800 font-normal">
+          {balance?.formatted} {balance?.symbol}
+        </p>
       </div>
     </div>
   );
@@ -65,13 +73,13 @@ export const Sidebar = () => {
         {/* Wallets of the user */}
         <div className="flex flex-col flex-grow py-4 space-y-4 overflow-y-auto">
           <WalletCard
-            address="0x1234567890123456789012345678901234567890"
+            address="0xa57feF21143e00632782284bDBF6Aa7da52A6F74"
             tag="Wallet #1"
           />
-          <WalletCard
-            address="0x1234567890123456789012345678901234567890"
+          {/* <WalletCard
+            address="0xa57feF21143e00632782284bDBF6Aa7da52A6F74"
             tag="Wallet #2"
-          />
+          /> */}
         </div>
 
         {/* Settings and Dashboard buttons */}
