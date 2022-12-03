@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@gnosis.pm/safe-apps-wagmi": "^1.2.0",
+    "@heroicons/react": "^2.0.13",
     "@rainbow-me/rainbowkit": "^0.8.0",
     "@types/node": "18.11.10",
     "@types/react": "18.0.26",
