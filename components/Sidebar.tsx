@@ -46,7 +46,7 @@ export const Sidebar = () => {
             <UserGroupIcon className="w-6 text-gray-800" />
           </div>
           <div className="flex flex-col">
-            <span className="" text-base>
+            <span className="text-base text-gray-600">
               All accounts
             </span>
             <span className="text-lg">$69.69</span>

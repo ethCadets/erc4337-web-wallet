@@ -10,4 +10,12 @@
   .sidebar-path-btn {
     @apply flex items-center w-full px-2 py-3 text-sm font-medium rounded-lg hover:bg-neutral-100;
   }
+
+  .active-tab-portfolio {
+    @apply text-white bg-blue-500 px-6 py-2 rounded-lg transition-all duration-200;
+  }
+
+  .inactive-tab-portfolio {
+    @apply text-gray-800 bg-white hover:bg-gray-100 px-6 py-2 rounded-lg transition-all duration-200;
+  }
 }

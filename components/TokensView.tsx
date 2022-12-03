@@ -21,36 +21,38 @@ interface IBalance {
 
 export const TokensView: FC<ITokensView> = ({ walletAddress }) => {
   const [balances, setBalances] = useState<IBalance[]>([]);
-
   useEffect(() => {
     fetchTokenBalances(walletAddress).then(setBalances);
   }, [walletAddress]);
 
   return (
-    <div>
-      <h1>{walletAddress}</h1>
-      <div className="flex flex-col gap-4">
-        {balances.map((balance) => (
-          <div
-            key={balance.contract_address}
-            className="flex items-center p-2 bg-white rounded shadow"
-          >
-            {/* <img
-              src={balance.logo_url || '/images/placeholder.png'}
-              alt={balance.contract_ticker_symbol}
-              className="w-12 h-12"
-            /> */}
-            <p className="text-sm text-gray-600 ml-4">
-              {ethers.utils
-                .formatUnits(balance.balance, balance.contract_decimals)
-                .toString()}
-            </p>
-            <p className="text-sm text-gray-600 ml-2">
-              {balance.contract_ticker_symbol}
-            </p>
-          </div>
-        ))}
+    <>
+      <p className="text-2xl font-semibold">{walletAddress}</p>
+      <div className="flex flex-col gap-y-4 mt-5 max-w-sm">
+        {balances.length > 0
+          ? balances.map((balance) => (
+              <div
+                key={balance.contract_address}
+                className="flex items-center p-4 border bg-white rounded-md"
+              >
+                <img
+                  src={"/images/placeholder.svg"}
+                  // balance.logo_url
+                  alt={balance.contract_ticker_symbol}
+                  className="w-12"
+                />
+                <p className="text-sm text-gray-600 ml-4">
+                  {ethers.utils
+                    .formatUnits(balance.balance, balance.contract_decimals)
+                    .toString()}
+                </p>
+                <p className="text-sm text-gray-600 ml-2">
+                  {balance.contract_ticker_symbol}
+                </p>
+              </div>
+            ))
+          : 'Loading tokens...'}
       </div>
-    </div>
+    </>
   );
 };

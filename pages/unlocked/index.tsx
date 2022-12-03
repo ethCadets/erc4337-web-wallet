@@ -9,15 +9,14 @@ type TabState = 'tokens' | 'transactions' | 'nfts';
 
 const Page: NextPage = () => {
   const [activeTab, setActiveTab] = useState<TabState>('tokens');
+  const totalValue = 69.693425;
 
   return (
     <Layout>
-      <div className="p-4">
-        <h1 className="text-4xl font-bold">ERC4337 web wallet</h1>
-
-        <div className="flex flex-col">
-          <span className="block">Total portfolio value</span>
-          <span className="text-3xl font-bold">$69.69</span>
+      <div className="flex flex-col gap-y-8 p-4">
+        <div className="flex flex-col gap-y-1 max-w-fit py-4 pl-4 pr-6 rounded-lg bg-gray-100">
+          <span className="text-gray-700">Total portfolio value</span>
+          <span className="text-3xl font-semibold">${totalValue.toFixed(2)}</span>
         </div>
 
         <hr />
@@ -26,7 +25,7 @@ const Page: NextPage = () => {
         <div className="flex flex-row space-x-4">
           <button
             className={`${
-              activeTab === 'tokens' ? 'text-blue-500' : 'text-gray-500'
+              activeTab === 'tokens' ? 'active-tab-portfolio' : 'inactive-tab-portfolio'
             }`}
             onClick={() => setActiveTab('tokens')}
           >
@@ -34,7 +33,7 @@ const Page: NextPage = () => {
           </button>
           <button
             className={`${
-              activeTab === 'transactions' ? 'text-blue-500' : 'text-gray-500'
+              activeTab === 'transactions' ? 'active-tab-portfolio' : 'inactive-tab-portfolio'
             }`}
             onClick={() => setActiveTab('transactions')}
           >
@@ -42,7 +41,7 @@ const Page: NextPage = () => {
           </button>
           <button
             className={`${
-              activeTab === 'nfts' ? 'text-blue-500' : 'text-gray-500'
+              activeTab === 'nfts' ? 'active-tab-portfolio' : 'inactive-tab-portfolio'
             }`}
             onClick={() => setActiveTab('nfts')}
           >

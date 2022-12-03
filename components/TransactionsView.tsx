@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 const fetchTransactions = async (walletAddress: string) => {
   // fetch txs from /api/transactions
@@ -16,14 +16,16 @@ interface ITransactionsViewProps {
 export const TransactionsView: React.FC<ITransactionsViewProps> = ({
   walletAddress,
 }) => {
+  const [transactions, setTransactions] = useState<any>();
+
   useEffect(() => {
-    fetchTransactions(walletAddress).then(console.log);
+    fetchTransactions(walletAddress).then(setTransactions);
   }, [walletAddress]);
 
   return (
     <div>
-      <h1>Transactions</h1>
-      {/* Render transactions here */}
+      <p className='text-lg font-semibold'>Address:</p>
+      <p>{!transactions ? "Loading..." : transactions.address}</p>
     </div>
   );
 };
