@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import { FC } from 'react';
 import { truncateWalletAddress } from '../utils';
 import { Button } from './Button';
@@ -25,6 +26,16 @@ const WalletCard: FC<IWalletCardProps> = ({ address, tag }) => {
 };
 
 export const Sidebar = () => {
+  const router = useRouter();
+
+  const openDashboard = () => {
+    router.push('/unlocked/');
+  };
+
+  const openSettings = () => {
+    router.push('/unlocked/settings');
+  };
+
   return (
     <aside className="flex flex-col flex-shrink-0 w-64 bg-white border-r border-gray-200">
       <div>
@@ -51,7 +62,14 @@ export const Sidebar = () => {
       </div>
 
       {/* a settings button at the bottom */}
-      <Button variant="secondary" className="mt-auto mb-0">
+      <Button
+        onClick={openDashboard}
+        variant="secondary"
+        className="mt-auto mb-0"
+      >
+        Dashboard
+      </Button>
+      <Button onClick={openSettings} variant="secondary" className="mt-4">
         Settings
       </Button>
     </aside>
