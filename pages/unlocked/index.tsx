@@ -1,6 +1,7 @@
 import { NextPage } from 'next';
 import { useState } from 'react';
 import { Layout } from '../../components/Layout';
+import { NFTsView } from '../../components/NFTsView';
 import { TokensView } from '../../components/TokensView';
 import { TransactionsView } from '../../components/TransactionsView';
 
@@ -61,7 +62,11 @@ const Page: NextPage = () => {
             <TransactionsView walletAddress="dhaiwat.eth" />
           </div>
         )}
-        {activeTab === 'nfts' && <div>NFTs</div>}
+        {activeTab === 'nfts' && (
+          <div>
+            <NFTsView walletAddress="dhaiwat.eth" />
+          </div>
+        )}
       </div>
     </Layout>
   );
