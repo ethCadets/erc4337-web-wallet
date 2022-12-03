@@ -35,7 +35,8 @@ const Page: NextPage = () => {
   const setSwitch = async () => {
     const aaProvider = await wrapProvider(
       provider as JsonRpcProvider,
-      sdkConfig
+      sdkConfig,
+      signer as Signer
     );
     const aaSigner = aaProvider.getSigner();
     const contract = new Contract(
