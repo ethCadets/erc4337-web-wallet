@@ -2,7 +2,7 @@ import '../styles/globals.css';
 import type { AppProps } from 'next/app';
 import '@rainbow-me/rainbowkit/styles.css';
 import { customRainbow } from '../utils/mobileWallet';  
-import { safeWallet } from '../utils/safeWallet';
+// import { safeWallet } from '../utils/safeWallet';
 import { getDefaultWallets, RainbowKitProvider, connectorsForWallets } from '@rainbow-me/rainbowkit';
 import {
   injectedWallet,
@@ -36,7 +36,7 @@ const connectors = connectorsForWallets([
       walletConnectWallet({ chains }),
       argentWallet({ chains }),
       customRainbow({ chains }),
-      safeWallet({chains})
+      // safeWallet({chains})
 
     ],
   },
