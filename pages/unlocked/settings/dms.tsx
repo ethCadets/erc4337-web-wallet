@@ -59,31 +59,31 @@ const Page: NextPage = () => {
           </div>
         )}
 
-        {/* {!doesSwitchAccountExist && ( */}
-        <>
-          <div className="mt-4">
-            <label>Beneficiary address</label>
-            <Input
-              type="text"
-              value={beneficiaryAddress}
-              onChange={(e) => setBeneficiaryAddress(e.target.value)}
-            />
-          </div>
+        {!doesSwitchAccountExist && (
+          <>
+            <div className="mt-4">
+              <label>Beneficiary address</label>
+              <Input
+                type="text"
+                value={beneficiaryAddress}
+                onChange={(e) => setBeneficiaryAddress(e.target.value)}
+              />
+            </div>
 
-          <div className="mt-4">
-            <label>Timestamp difference</label>
-            <Input
-              type="text"
-              value={timestampDiff}
-              onChange={(e) => setTimestampDiff(Number(e.target.value))}
-            />
-          </div>
+            <div className="mt-4">
+              <label>Timestamp difference</label>
+              <Input
+                type="text"
+                value={timestampDiff}
+                onChange={(e) => setTimestampDiff(Number(e.target.value))}
+              />
+            </div>
 
-          <Button onClick={setSwitch} variant="primary" className="mt-4">
-            Set Switch
-          </Button>
-        </>
-        {/* )} */}
+            <Button onClick={setSwitch} variant="primary" className="mt-4">
+              Set Switch
+            </Button>
+          </>
+        )}
       </div>
     </Layout>
   );
