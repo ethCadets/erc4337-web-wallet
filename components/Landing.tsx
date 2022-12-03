@@ -21,11 +21,14 @@ export const Landing = () => {
         <ConnectButton />
       */}
       <div className="flex flex-col items-center gap-y-10 mt-10 w-full">
-        <button className="flex items-center justify-center gap-x-2 w-full sm:w-3/4 md:w-1/2 py-16 text-center border border-black rounded-lg cursor-pointer transition-all duration-200 hover:scale-[1.01] active:scale-100">
+        <button
+          className="flex items-center justify-center gap-x-2 w-full sm:w-3/4 md:w-1/2 py-16 text-center border border-black rounded-lg cursor-pointer transition-all duration-200 hover:scale-[1.01] active:scale-100"
+          onClick={onCreateClick}
+        >
           <p className="font-medium text-2xl">Create wallet</p>
           <PlusIcon className="w-5" />
         </button>
-        <button className="flex items-center justify-center gap-x-2 w-full sm:w-3/4 md:w-1/2 py-16 text-center border border-black rounded-lg cursor-pointer transition-all duration-200 hover:scale-[1.01] active:scale-100">
+        <button disabled className="flex pointer-events-none opacity-50 items-center justify-center gap-x-2 w-full sm:w-3/4 md:w-1/2 py-16 text-center border border-black rounded-lg transition-all duration-200 hover:scale-[1.01] active:scale-100">
           <p className="font-medium text-2xl">Import wallet</p>
           <ArrowDownIcon className="w-5" />
         </button>
