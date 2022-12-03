@@ -22,8 +22,16 @@ export const Layout: FC<ILayoutProps> = ({
 
   return (
     <div className="flex">
-      {authState === 'unlocked' && sidebarContent}
-      {authState === 'unlocked' ? children : <Landing />}
+      {authState === 'unlocked' ? (
+        <>
+          <div className="hidden md:flex md:w-64 md:flex-col md:fixed md:inset-y-0 flex-shrink-0">
+            {sidebarContent}
+          </div>
+          <div className="md:pl-64 flex flex-col flex-1">{children}</div>
+        </>
+      ) : (
+        <Landing />
+      )}
     </div>
   );
 };
