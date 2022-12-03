@@ -1,8 +1,8 @@
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
-import { FC, useState } from 'react';
-import { Button } from '../../../components/Button';
+import { FC } from 'react';
 import { Layout } from '../../../components/Layout';
+import { ChevronRightIcon } from '@heroicons/react/24/solid';
 
 interface ISettingsCardProps {
   title: string;
@@ -46,10 +46,15 @@ const SettingCard: FC<ISettingsCardProps> = ({ title, description, route }) => {
   };
 
   return (
-    <div className="flex flex-col justify-center p-4 space-y-2 bg-white rounded shadow">
-      <h3 className="text-xl font-bold">{title}</h3>
-      <p>{description}</p>
-      <Button onClick={onSetupClick}>Setup</Button>
+    <div
+      onClick={onSetupClick}
+      className="flex flex-row group justify-between px-6 py-4 rounded-xl bg-white max-w-xl cursor-pointer"
+    >
+      <div>
+        <h3 className="text-xl font-bold">{title}</h3>
+        <p>{description}</p>
+      </div>
+      <ChevronRightIcon className='w-5 text-gray-500 group-hover:text-gray-800 group-hover:translate-x-1 transition duration-200' />
     </div>
   );
 };
@@ -57,9 +62,11 @@ const SettingCard: FC<ISettingsCardProps> = ({ title, description, route }) => {
 const Page: NextPage = () => {
   return (
     <Layout>
-      <div className="p-4">
-        <h1 className="text-4xl font-bold">Settings</h1>
-        <div className="flex flex-col flex-grow p-4 space-y-4 overflow-y-auto">
+      <div className="flex flex-col gap-y-8 p-8 min-h-screen bg-gray-100">
+        <div className="w-full flex flex-row gap-x-5">
+          <p className=" text-[32px] font-semibold">Settings</p>
+        </div>
+        <div className="flex flex-col flex-grow gap-y-6 overflow-y-auto">
           {settingItems.map((item) => (
             <SettingCard
               key={item.title}
