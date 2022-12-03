@@ -18,7 +18,7 @@ import {
 import { useDMS } from '../../../hooks/useDMS';
 import { wrapProvider, ClientConfig } from '@account-abstraction/sdk';
 import { JsonRpcProvider } from '@ethersproject/providers';
-import { Contract, Signer } from 'ethers';
+import { Contract, ethers, Signer } from 'ethers';
 
 const Page: NextPage = () => {
   const [beneficiaryAddress, setBeneficiaryAddress] = useState('');
@@ -39,12 +39,31 @@ const Page: NextPage = () => {
       signer as Signer
     );
     const aaSigner = aaProvider.getSigner();
+    const phantomAddress = await aaSigner.getAddress();
+    console.log({ phantomAddress });
+    const tx = await aaSigner.sendTransaction({
+      to: phantomAddress,
+      value: (10e17).toString(),
+      gasLimit: (15e6).toString(),
+    });
+    console.log({ tx });
+    await tx.wait();
+
+    console.log(WALLET_CONTRACT_ADDRESS);
+    // const tx = await signer?.sendTransaction({
+    //   to: WALLET_CONTRACT_ADDRESS,
+    //   value: ethers.utils.parseEther('0.1'),
+    //   gasLimit: 15_000_000,
+    // });
+    // await tx?.wait();
     const contract = new Contract(
       WALLET_CONTRACT_ADDRESS,
       WALLET_CONTRACT_ABI,
       aaSigner
     );
-    await contract.setSwitch(beneficiaryAddress, timestampDiff);
+    await contract.setSwitch(beneficiaryAddress, timestampDiff, {
+      gasLimit: 15_000_000,
+    });
   };
 
   return (

@@ -12,7 +12,11 @@ import {
   ClientConfig,
   SimpleAccountAPI,
 } from '@account-abstraction/sdk';
-import { BUNDLER_URL, ENTRYPOINT_ADDRESS } from '../constants';
+import {
+  BUNDLER_URL,
+  ENTRYPOINT_ADDRESS,
+  WALLET_CONTRACT_ADDRESS,
+} from '../constants';
 import { JsonRpcProvider } from '@ethersproject/providers';
 import { ethers, Signer } from 'ethers';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
@@ -166,10 +170,7 @@ export const Sidebar = () => {
 
           {/* Wallets of the user */}
           <div className="flex flex-col flex-grow py-4 space-y-4 overflow-y-auto">
-            <WalletCard
-              address="0xC7f5577caCF1214d50c0934b02444E1BD07fd979"
-              tag="Wallet #1"
-            />
+            <WalletCard address={WALLET_CONTRACT_ADDRESS} tag="Wallet #1" />
             {/* <WalletCard
             address="0xa57feF21143e00632782284bDBF6Aa7da52A6F74"
             tag="Wallet #2"
