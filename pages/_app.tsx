@@ -1,15 +1,19 @@
 import '../styles/globals.css';
 import type { AppProps } from 'next/app';
 import '@rainbow-me/rainbowkit/styles.css';
-import { customRainbow } from '../utils/mobileWallet';  
+import { customRainbow } from '../utils/mobileWallet';
 // import { safeWallet } from '../utils/safeWallet';
-import { getDefaultWallets, RainbowKitProvider, connectorsForWallets } from '@rainbow-me/rainbowkit';
+import {
+  getDefaultWallets,
+  RainbowKitProvider,
+  connectorsForWallets,
+} from '@rainbow-me/rainbowkit';
 import {
   injectedWallet,
   rainbowWallet,
   walletConnectWallet,
   argentWallet,
-  metaMaskWallet
+  metaMaskWallet,
 } from '@rainbow-me/rainbowkit/wallets';
 import { chain, configureChains, createClient, WagmiConfig } from 'wagmi';
 import { alchemyProvider } from 'wagmi/providers/alchemy';
@@ -19,14 +23,13 @@ import { GlobalContext } from '../contexts';
 import { useState } from 'react';
 
 const { chains, provider } = configureChains(
-  [chain.mainnet, chain.polygon, chain.optimism, chain.arbitrum],
-  [publicProvider()]
+  [chain.polygonMumbai],
+  [
+    alchemyProvider({ apiKey: process.env.NEXT_PUBLIC_ALCHEMY_ID as string }),
+    publicProvider(),
+  ]
 );
 
-// const { connectors } = getDefaultWallets({
-//   appName: 'My RainbowKit App',
-//   chains,
-// });
 const connectors = connectorsForWallets([
   {
     groupName: 'Recommended',
@@ -37,7 +40,6 @@ const connectors = connectorsForWallets([
       argentWallet({ chains }),
       customRainbow({ chains }),
       // safeWallet({chains})
-
     ],
   },
 ]);
