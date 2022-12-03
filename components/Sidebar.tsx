@@ -7,7 +7,11 @@ import { Button } from './Button';
 import { useBalance, useProvider, useSigner } from 'wagmi';
 import Modal from 'react-modal';
 import { Input } from './Input';
-import { wrapProvider, ClientConfig } from '@account-abstraction/sdk';
+import {
+  wrapProvider,
+  ClientConfig,
+  SimpleAccountAPI,
+} from '@account-abstraction/sdk';
 import { BUNDLER_URL, ENTRYPOINT_ADDRESS } from '../constants';
 import { JsonRpcProvider } from '@ethersproject/providers';
 import { ethers, Signer } from 'ethers';
@@ -70,20 +74,35 @@ export const Sidebar = () => {
   };
 
   const sendMoney = async () => {
-    const aaProvider = await wrapProvider(
-      provider as JsonRpcProvider,
-      sdkConfig
-    );
-    const aaSigner = aaProvider.getSigner();
+    // const aaProvider = await wrapProvider(
+    //   provider as JsonRpcProvider,
+    //   sdkConfig
+    // );
+    // const aaSigner = aaProvider.getSigner();
 
-    console.log(ethers.utils.parseEther(sendAmount));
+    // console.log(ethers.utils.parseEther(sendAmount));
 
-    const tx = await aaSigner.sendTransaction({
-      to: sendToWalletAddress,
-      value: ethers.utils.parseEther(sendAmount),
+    // const tx = await aaSigner.sendTransaction({
+    //   to: sendToWalletAddress,
+    //   value: ethers.utils.parseEther(sendAmount),
+    //   gasLimit: 15_000_000,
+    // });
+    // const res = await tx.wait();
+    // console.log(res);
+    const owner = signer as Signer;
+    const walletAPI = new SimpleAccountAPI({
+      provider,
+      entryPointAddress: ENTRYPOINT_ADDRESS,
+      owner,
+      factoryAddress: '0x923F3250C2c3c29b13921C1665a83Ac835514c65',
     });
-    const res = await tx.wait();
-    console.log(res);
+    const op = await walletAPI.createSignedUserOp({
+      target: sendToWalletAddress,
+      value: ethers.utils.parseEther(sendAmount),
+      data: '0x',
+      gasLimit: '15000000',
+    });
+    console.log(op);
   };
 
   return (
@@ -148,7 +167,7 @@ export const Sidebar = () => {
           {/* Wallets of the user */}
           <div className="flex flex-col flex-grow py-4 space-y-4 overflow-y-auto">
             <WalletCard
-              address="0xa57feF21143e00632782284bDBF6Aa7da52A6F74"
+              address="0xC7f5577caCF1214d50c0934b02444E1BD07fd979"
               tag="Wallet #1"
             />
             {/* <WalletCard
