@@ -1,9 +1,19 @@
 import '../styles/globals.css';
 import type { AppProps } from 'next/app';
 import '@rainbow-me/rainbowkit/styles.css';
-import { getDefaultWallets, RainbowKitProvider } from '@rainbow-me/rainbowkit';
+import { customRainbow } from '../utils/mobileWallet';  
+import { safeWallet } from '../utils/safeWallet';
+import { getDefaultWallets, RainbowKitProvider, connectorsForWallets } from '@rainbow-me/rainbowkit';
+import {
+  injectedWallet,
+  rainbowWallet,
+  walletConnectWallet,
+  argentWallet,
+  metaMaskWallet
+} from '@rainbow-me/rainbowkit/wallets';
 import { chain, configureChains, createClient, WagmiConfig } from 'wagmi';
 import { alchemyProvider } from 'wagmi/providers/alchemy';
+import { SafeConnector } from '@gnosis.pm/safe-apps-wagmi';
 import { publicProvider } from 'wagmi/providers/public';
 import { GlobalContext } from '../contexts';
 import { useState } from 'react';
@@ -13,10 +23,24 @@ const { chains, provider } = configureChains(
   [publicProvider()]
 );
 
-const { connectors } = getDefaultWallets({
-  appName: 'My RainbowKit App',
-  chains,
-});
+// const { connectors } = getDefaultWallets({
+//   appName: 'My RainbowKit App',
+//   chains,
+// });
+const connectors = connectorsForWallets([
+  {
+    groupName: 'Recommended',
+    wallets: [
+      metaMaskWallet({ chains }),
+      rainbowWallet({ chains }),
+      walletConnectWallet({ chains }),
+      argentWallet({ chains }),
+      customRainbow({ chains }),
+      safeWallet({chains})
+
+    ],
+  },
+]);
 
 const wagmiClient = createClient({
   autoConnect: true,
@@ -30,7 +54,7 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <GlobalContext.Provider value={{ authState, setAuthState }}>
       <WagmiConfig client={wagmiClient}>
-        <RainbowKitProvider chains={chains}>
+        <RainbowKitProvider coolMode chains={chains}>
           <Component {...pageProps} />
         </RainbowKitProvider>
       </WagmiConfig>

@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@gnosis.pm/safe-apps-wagmi": "^1.2.0",
     "@rainbow-me/rainbowkit": "^0.8.0",
     "@types/node": "18.11.10",
     "@types/react": "18.0.26",
