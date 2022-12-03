@@ -20,7 +20,11 @@ export const Button: FC<IButtonProps> = ({
 
   return (
     <button
-      className={classNames(className, additionalClassNames)}
+      className={classNames(
+        className,
+        additionalClassNames,
+        'disabled:opacity-50 disabled:cursor-not-allowed'
+      )}
       {...props}
     />
   );
