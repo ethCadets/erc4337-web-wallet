@@ -10,11 +10,13 @@ import { Button } from '../../../components/Button';
 import { Input } from '../../../components/Input';
 import { Layout } from '../../../components/Layout';
 import {
+  BUNDLER_URL,
+  ENTRYPOINT_ADDRESS,
   WALLET_CONTRACT_ABI,
   WALLET_CONTRACT_ADDRESS,
 } from '../../../constants';
 import { useDMS } from '../../../hooks/useDMS';
-import { wrapProvider } from '@account-abstraction/sdk';
+import { wrapProvider, ClientConfig } from '@account-abstraction/sdk';
 import { JsonRpcProvider } from '@ethersproject/providers';
 import { Contract, Signer } from 'ethers';
 
@@ -24,18 +26,16 @@ const Page: NextPage = () => {
 
   const provider = useProvider();
   const { data: signer } = useSigner();
-  const sdkConfig = {
-    chainId: 80001,
-    entryPointAddress: '0x2DF1592238420ecFe7f2431360e224707e77fA0E',
-    bundlerUrl: 'https://bundler-production.up.railway.app:3000/rpc',
+  const sdkConfig: ClientConfig = {
+    entryPointAddress: ENTRYPOINT_ADDRESS,
+    bundlerUrl: BUNDLER_URL,
   };
   const { doesSwitchAccountExist, switchAccount, triggerTimestamp } = useDMS();
 
   const setSwitch = async () => {
     const aaProvider = await wrapProvider(
       provider as JsonRpcProvider,
-      sdkConfig,
-      signer as Signer
+      sdkConfig
     );
     const aaSigner = aaProvider.getSigner();
     const contract = new Contract(

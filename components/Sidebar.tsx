@@ -1,10 +1,17 @@
 import { UserGroupIcon } from '@heroicons/react/24/solid';
 import { FiSend } from 'react-icons/fi';
 import { useRouter } from 'next/router';
-import { FC, useEffect } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { truncateWalletAddress } from '../utils';
 import { Button } from './Button';
-import { useBalance } from 'wagmi';
+import { useBalance, useProvider, useSigner } from 'wagmi';
+import Modal from 'react-modal';
+import { Input } from './Input';
+import { wrapProvider, ClientConfig } from '@account-abstraction/sdk';
+import { BUNDLER_URL, ENTRYPOINT_ADDRESS } from '../constants';
+import { JsonRpcProvider } from '@ethersproject/providers';
+import { ethers, Signer } from 'ethers';
+import { ConnectButton } from '@rainbow-me/rainbowkit';
 
 interface IWalletCardProps {
   address: string;
@@ -46,66 +53,135 @@ export const Sidebar = () => {
     router.push('/unlocked/settings');
   };
 
+  const [sendModalOpen, setSendModalOpen] = useState(false);
+  const [sendToWalletAddress, setSendToWalletAddress] = useState('');
+  const [sendAmount, setSendAmount] = useState('');
+
+  const { data: signer } = useSigner();
+  const provider = signer?.provider as JsonRpcProvider;
+
+  const sdkConfig: ClientConfig = {
+    entryPointAddress: ENTRYPOINT_ADDRESS,
+    bundlerUrl: BUNDLER_URL,
+  };
+
+  const openModal = () => {
+    setSendModalOpen(true);
+  };
+
+  const sendMoney = async () => {
+    const aaProvider = await wrapProvider(
+      provider as JsonRpcProvider,
+      sdkConfig
+    );
+    const aaSigner = aaProvider.getSigner();
+
+    console.log(ethers.utils.parseEther(sendAmount));
+
+    const tx = await aaSigner.sendTransaction({
+      to: sendToWalletAddress,
+      value: ethers.utils.parseEther(sendAmount),
+    });
+    const res = await tx.wait();
+    console.log(res);
+  };
+
   return (
-    <div className="flex flex-col flex-1 min-h-0 text-neutral-900 border-r border-neutral-200">
-      <div className="flex flex-col flex-1 px-4 pt-5 pb-4 overflow-y-auto">
-        <div className="flex gap-x-4 items-center mb-2 pl-2 py-1 rounded-lg hover:bg-gray-100">
-          <div className="rounded-full p-2 h-max bg-gray-100">
-            <UserGroupIcon className="w-6 text-gray-800" />
-          </div>
-          <div className="flex flex-col">
-            <span className="text-base text-gray-600">
-              All accounts
-            </span>
-            <span className="text-lg">$69.69</span>
-          </div>
-        </div>
+    <>
+      <Modal
+        isOpen={sendModalOpen}
+        onRequestClose={() => setSendModalOpen(false)}
+      >
+        <h3 className="text-2xl font-bold">Send</h3>
 
-        {/* Send and receive buttons */}
-        <div className="flex gap-x-3">
-          <button className="sidebar-user-btn">
-            <FiSend className="w-3" />
+        <div className="flex flex-col space-y-4">
+          <div className="flex flex-col space-y-1">
+            <label htmlFor="send-to-address">Send to address</label>
+            <Input
+              id="send-to-address"
+              type="text"
+              value={sendToWalletAddress}
+              onChange={(e) => setSendToWalletAddress(e.target.value)}
+            />
+          </div>
+
+          <div className="flex flex-col space-y-1">
+            <label htmlFor="send-amount">Amount</label>
+            <Input
+              id="send-amount"
+              type="text"
+              placeholder="Enter amount in MATIC"
+              value={sendAmount}
+              onChange={(e) => setSendAmount(e.target.value)}
+            />
+          </div>
+
+          <Button variant="primary" onClick={sendMoney}>
             Send
-          </button>
-          <button className="sidebar-user-btn">Receive</button>
+          </Button>
         </div>
+      </Modal>
 
-        {/* Wallets of the user */}
-        <div className="flex flex-col flex-grow py-4 space-y-4 overflow-y-auto">
-          <WalletCard
-            address="0xa57feF21143e00632782284bDBF6Aa7da52A6F74"
-            tag="Wallet #1"
-          />
-          {/* <WalletCard
+      <div className="flex flex-col flex-1 min-h-0 text-neutral-900 border-r border-neutral-200">
+        <ConnectButton />
+
+        <div className="flex flex-col flex-1 px-4 pt-5 pb-4 overflow-y-auto">
+          <div className="flex gap-x-4 items-center mb-2 pl-2 py-1 rounded-lg hover:bg-gray-100">
+            <div className="rounded-full p-2 h-max bg-gray-100">
+              <UserGroupIcon className="w-6 text-gray-800" />
+            </div>
+            <div className="flex flex-col">
+              <span className="text-base text-gray-600">All accounts</span>
+              <span className="text-lg">$69.69</span>
+            </div>
+          </div>
+
+          {/* Send and receive buttons */}
+          <div className="flex gap-x-3">
+            <button className="sidebar-user-btn" onClick={openModal}>
+              <FiSend className="w-3" />
+              Send
+            </button>
+            <button className="sidebar-user-btn">Receive</button>
+          </div>
+
+          {/* Wallets of the user */}
+          <div className="flex flex-col flex-grow py-4 space-y-4 overflow-y-auto">
+            <WalletCard
+              address="0xa57feF21143e00632782284bDBF6Aa7da52A6F74"
+              tag="Wallet #1"
+            />
+            {/* <WalletCard
             address="0xa57feF21143e00632782284bDBF6Aa7da52A6F74"
             tag="Wallet #2"
           /> */}
-        </div>
+          </div>
 
-        {/* Settings and Dashboard buttons */}
-        <div className="flex flex-col gap-y-2 mb-5">
-          <button
-            onClick={openDashboard}
-            className={`p-2 block rounded-md ${
-              router.pathname === '/unlocked'
-                ? 'bg-gray-200'
-                : 'bg-white hover:bg-gray-200'
-            }`}
-          >
-            Portfolio
-          </button>
-          <button
-            onClick={openSettings}
-            className={`p-2 block rounded-md ${
-              router.pathname === '/unlocked/settings'
-                ? 'bg-gray-200'
-                : 'bg-white hover:bg-gray-200'
-            }`}
-          >
-            Settings
-          </button>
+          {/* Settings and Dashboard buttons */}
+          <div className="flex flex-col gap-y-2 mb-5">
+            <button
+              onClick={openDashboard}
+              className={`p-2 block rounded-md ${
+                router.pathname === '/unlocked'
+                  ? 'bg-gray-200'
+                  : 'bg-white hover:bg-gray-200'
+              }`}
+            >
+              Portfolio
+            </button>
+            <button
+              onClick={openSettings}
+              className={`p-2 block rounded-md ${
+                router.pathname === '/unlocked/settings'
+                  ? 'bg-gray-200'
+                  : 'bg-white hover:bg-gray-200'
+              }`}
+            >
+              Settings
+            </button>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
