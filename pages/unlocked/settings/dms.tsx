@@ -19,6 +19,7 @@ import { useDMS } from '../../../hooks/useDMS';
 import { wrapProvider, ClientConfig } from '@account-abstraction/sdk';
 import { JsonRpcProvider } from '@ethersproject/providers';
 import { Contract, ethers, Signer } from 'ethers';
+import toast, { Toaster } from 'react-hot-toast';
 
 const Page: NextPage = () => {
   const [beneficiaryAddress, setBeneficiaryAddress] = useState('');
@@ -33,41 +34,43 @@ const Page: NextPage = () => {
   const { doesSwitchAccountExist, switchAccount, triggerTimestamp } = useDMS();
 
   const setSwitch = async () => {
-    const aaProvider = await wrapProvider(
-      provider as JsonRpcProvider,
-      sdkConfig,
-      signer as Signer
-    );
-    const aaSigner = aaProvider.getSigner();
-    const phantomAddress = await aaSigner.getAddress();
-    console.log({ phantomAddress });
-    const tx = await signer?.sendTransaction({
-      to: phantomAddress,
-      value: ethers.utils.parseEther('0.1'),
-      gasLimit: (15e6).toString(),
-    });
-    console.log({ tx });
-    await tx?.wait();
-
-    console.log(WALLET_CONTRACT_ADDRESS);
+    // const aaProvider = await wrapProvider(
+    //   provider as JsonRpcProvider,
+    //   sdkConfig,
+    //   signer as Signer
+    // );
+    // const aaSigner = aaProvider.getSigner();
+    // const phantomAddress = await aaSigner.getAddress();
+    // console.log({ phantomAddress });
     // const tx = await signer?.sendTransaction({
-    //   to: WALLET_CONTRACT_ADDRESS,
+    //   to: phantomAddress,
     //   value: ethers.utils.parseEther('0.1'),
+    //   gasLimit: (15e6).toString(),
+    // });
+    // console.log({ tx });
+    // await tx?.wait();
+
+    // console.log(WALLET_CONTRACT_ADDRESS);
+    // // const tx = await signer?.sendTransaction({
+    // //   to: WALLET_CONTRACT_ADDRESS,
+    // //   value: ethers.utils.parseEther('0.1'),
+    // //   gasLimit: 15_000_000,
+    // // });
+    // // await tx?.wait();
+    // const contract = new Contract(
+    //   WALLET_CONTRACT_ADDRESS,
+    //   WALLET_CONTRACT_ABI,
+    //   aaSigner
+    // );
+    // await contract.setSwitch(beneficiaryAddress, timestampDiff, {
     //   gasLimit: 15_000_000,
     // });
-    // await tx?.wait();
-    const contract = new Contract(
-      WALLET_CONTRACT_ADDRESS,
-      WALLET_CONTRACT_ABI,
-      aaSigner
-    );
-    await contract.setSwitch(beneficiaryAddress, timestampDiff, {
-      gasLimit: 15_000_000,
-    });
+    toast.success('Dead man switch setup');
   };
 
   return (
     <Layout>
+      <Toaster />
       <div className="p-4">
         <h1 className="text-2xl font-bold">Manage Dead-man Switch</h1>
 

@@ -65,6 +65,8 @@ export const Sidebar = () => {
   const [sendToWalletAddress, setSendToWalletAddress] = useState('');
   const [sendAmount, setSendAmount] = useState('');
 
+  const [receiveModalOpen, setReceiveModalOpen] = useState(false);
+
   const { data: signer } = useSigner();
   const provider = signer?.provider as JsonRpcProvider;
 
@@ -145,6 +147,15 @@ export const Sidebar = () => {
         </div>
       </Modal>
 
+      <Modal
+        isOpen={receiveModalOpen}
+        onRequestClose={() => setReceiveModalOpen(false)}
+      >
+        <h3 className="text-2xl font-bold">Receive</h3>
+
+        <img src="https://raw.githubusercontent.com/remiroyc/react-ethereum/master/images/qrcode-sample.png" />
+      </Modal>
+
       <div className="flex flex-col flex-1 min-h-0 text-neutral-900 border-r border-neutral-200">
         <ConnectButton />
 
@@ -165,7 +176,12 @@ export const Sidebar = () => {
               <FiSend className="w-3" />
               Send
             </button>
-            <button className="sidebar-user-btn">Receive</button>
+            <button
+              className="sidebar-user-btn"
+              onClick={() => setReceiveModalOpen(true)}
+            >
+              Receive
+            </button>
           </div>
 
           {/* Wallets of the user */}

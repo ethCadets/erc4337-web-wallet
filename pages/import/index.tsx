@@ -21,6 +21,15 @@ const Page: NextPage = () => {
           <ArrowPathIcon className="w-5" />
           Recover using DMS
         </Button>
+
+        <Button
+          variant="primary"
+          className="max-w-fit flex gap-x-2 items-center"
+          onClick={() => router.push('/import/social')}
+        >
+          <ArrowPathIcon className="w-5" />
+          Social recovery
+        </Button>
       </div>
     </Layout>
   );

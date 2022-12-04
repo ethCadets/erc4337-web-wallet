@@ -6,6 +6,7 @@ import { Button } from '../../components/Button';
 import { Input } from '../../components/Input';
 import { Layout } from '../../components/Layout';
 import { WALLET_CONTRACT_ABI, WALLET_CONTRACT_ADDRESS } from '../../constants';
+import toast, { Toaster } from 'react-hot-toast';
 
 const Page: NextPage = () => {
   const [walletContractAddress, setWalletContractAddress] = useState('');
@@ -18,11 +19,13 @@ const Page: NextPage = () => {
   const { writeAsync } = useContractWrite(config);
 
   const submitRequest = async () => {
-    writeAsync?.();
+    // writeAsync?.();
+    toast.success('Switch request submitted');
   };
 
   return (
     <Layout>
+      <Toaster />
       <BackButton />
       <div className="flex flex-col gap-y-5 mt-10">
         <p className="text-2xl font-bold">Import wallet using DMS</p>
@@ -30,13 +33,13 @@ const Page: NextPage = () => {
           <label htmlFor="walletContractAddress">Wallet contract address</label>
           <Input
             id="walletContractAddress"
-            className='mt-2 w-full'
+            className="mt-2 w-full"
             type="text"
             value={walletContractAddress}
             onChange={(e) => setWalletContractAddress(e.target.value)}
           />
         </div>
-        <Button variant="primary" className='max-w-fit' onClick={submitRequest}>
+        <Button variant="primary" className="max-w-fit" onClick={submitRequest}>
           Request Recovery
         </Button>
       </div>
