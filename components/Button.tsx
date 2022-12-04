@@ -14,8 +14,8 @@ export const Button: FC<IButtonProps> = ({
   className,
   ...props
 }) => {
-  const additionalClassNames = `p-2 block rounded-md ${
-    variant === 'primary' ? 'bg-blue-500 text-white' : 'bg-slate-200'
+  const additionalClassNames = `px-4 py-2 block rounded-md max-w-fit ${
+    variant === 'primary' ? 'bg-blue-500 hover:bg-blue-600 text-white' : 'bg-slate-200 hover:bg-slate-300'
   }`;
 
   return (

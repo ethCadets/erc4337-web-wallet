@@ -21,6 +21,7 @@ interface IBalance {
 
 export const TokensView: FC<ITokensView> = ({ walletAddress }) => {
   const [balances, setBalances] = useState<IBalance[]>([]);
+
   useEffect(() => {
     fetchTokenBalances(walletAddress).then(setBalances);
   }, [walletAddress]);
@@ -33,20 +34,21 @@ export const TokensView: FC<ITokensView> = ({ walletAddress }) => {
           ? balances.map((balance) => (
               <div
                 key={balance.contract_address}
-                className="flex items-center p-4 border bg-white rounded-md"
+                className="flex items-center p-4 border border-gray-200 rounded-md"
               >
                 <img
-                  src={"/images/placeholder.svg"}
-                  // balance.logo_url
-                  alt={balance.contract_ticker_symbol}
-                  className="w-12"
+                  src={balance.logo_url}
+                  alt={balance.contract_ticker_symbol.slice(0, 4)}
+                  className="w-9 rounded-full"
                 />
-                <p className="text-sm text-gray-600 ml-4">
-                  {ethers.utils
-                    .formatUnits(balance.balance, balance.contract_decimals)
-                    .toString()}
+                <p className="text-lg text-gray-800 ml-4">
+                  {parseFloat(
+                    ethers.utils
+                      .formatUnits(balance.balance, balance.contract_decimals)
+                      .toString()
+                  ).toFixed(2)}
                 </p>
-                <p className="text-sm text-gray-600 ml-2">
+                <p className="text-lg text-gray-600 ml-2">
                   {balance.contract_ticker_symbol}
                 </p>
               </div>

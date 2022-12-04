@@ -23,11 +23,8 @@ export const Layout: FC<ILayoutProps> = ({
 
   if (router.pathname.startsWith('/import')) {
     return (
-      <div className="p-4 flex flex-col">
-        <a className="cursor-pointer underline" onClick={() => router.back()}>
-          Back
-        </a>
-        {children}
+      <div className="flex flex-col px-4 py-10 items-center">
+        <div className="min-w-[600px]">{children}</div>
       </div>
     );
   }

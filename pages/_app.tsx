@@ -3,6 +3,7 @@ import type { AppProps } from 'next/app';
 import '@rainbow-me/rainbowkit/styles.css';
 import { customRainbow } from '../utils/mobileWallet';
 // import { safeWallet } from '../utils/safeWallet';
+import { Provider as AnkrProvider } from 'ankr-react';
 import {
   getDefaultWallets,
   RainbowKitProvider,
@@ -55,11 +56,13 @@ export default function App({ Component, pageProps }: AppProps) {
 
   return (
     <GlobalContext.Provider value={{ authState, setAuthState }}>
-      <WagmiConfig client={wagmiClient}>
-        <RainbowKitProvider coolMode chains={chains}>
-          <Component {...pageProps} />
-        </RainbowKitProvider>
-      </WagmiConfig>
+      <AnkrProvider>
+        <WagmiConfig client={wagmiClient}>
+          <RainbowKitProvider coolMode chains={chains}>
+            <Component {...pageProps} />
+          </RainbowKitProvider>
+        </WagmiConfig>
+      </AnkrProvider>
     </GlobalContext.Provider>
   );
 }
