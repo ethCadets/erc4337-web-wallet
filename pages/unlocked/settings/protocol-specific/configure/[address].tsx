@@ -22,7 +22,7 @@ const Page: NextPage = () => {
   })
 
   const onSubmit = async () => {
-    signMessage(),
+    signMessage()
     toast.success('Access updated', {
       position: 'bottom-center',
     });
