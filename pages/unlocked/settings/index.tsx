@@ -12,19 +12,9 @@ interface ISettingsCardProps {
 
 const settingItems: ISettingsCardProps[] = [
   {
-    title: 'Wallet recovery',
-    description: 'Recover your wallet from a seed phrase',
-    route: '/unlocked/settings/recover',
-  },
-  {
     title: 'Wallet guardians',
     description: 'Manage your wallet guardians',
     route: '/unlocked/settings/guardians',
-  },
-  {
-    title: 'Kill switch',
-    description: 'Manage your kill switch',
-    route: '/unlocked/settings/killswitch',
   },
   {
     title: 'Dead Man Switch',

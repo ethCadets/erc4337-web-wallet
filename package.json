@@ -2,6 +2,7 @@
   "name": "erc4337-web-wallet",
   "version": "0.1.0",
   "private": true,
+  "author": "Zephyr Team",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -15,6 +16,8 @@
     "@types/node": "18.11.10",
     "@types/react": "18.0.26",
     "@types/react-dom": "18.0.9",
+    "alchemy-sdk": "^2.2.3",
+    "ankr-react": "^0.3.0",
     "classnames": "^2.3.2",
     "ethers": "^5.7.2",
     "next": "13.0.6",

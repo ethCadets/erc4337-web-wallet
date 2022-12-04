@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import { useState, FC } from 'react';
 import { Button } from '../../../../components/Button';
 import { Layout } from '../../../../components/Layout';
+import { PlusIcon } from "@heroicons/react/24/solid";
 
 interface IContractCardProps {
   address: string;
@@ -16,7 +17,7 @@ const ContractCard: FC<IContractCardProps> = ({ address }) => {
   };
 
   return (
-    <div className="flex border border-gray-300 p-2 rounded items-center">
+    <div className="flex border border-gray-300 p-2 rounded-lg items-center">
       <p>{address}</p>
       <Button onClick={onConfigureClick} className="ml-8">
         Configure
@@ -30,8 +31,8 @@ const Page: NextPage = () => {
 
   return (
     <Layout>
-      <div className="p-4">
-        <h1 className="text-2xl font-bold">Protocol specific security</h1>
+      <div className="py-10 px-4 max-w-xl">
+        <p className="text-2xl font-bold">Protocol specific security</p>
 
         <div className="flex flex-col mt-4">
           <label>Add a new contract</label>
@@ -43,8 +44,8 @@ const Page: NextPage = () => {
             placeholder="Enter a contract address"
           />
 
-          <Button variant="primary" className="mt-2">
-            + Add
+          <Button variant="primary" className="mt-2 flex items-center">
+            <PlusIcon className='w-4 mr-2' />Add
           </Button>
         </div>
 

@@ -4,12 +4,17 @@ import { Layout } from '../../components/Layout';
 import { NFTsView } from '../../components/NFTsView';
 import { TokensView } from '../../components/TokensView';
 import { TransactionsView } from '../../components/TransactionsView';
+import { useAccountBalance } from 'ankr-react';
 
 type TabState = 'tokens' | 'transactions' | 'nfts';
 
 const Page: NextPage = () => {
   const [activeTab, setActiveTab] = useState<TabState>('tokens');
-  const totalValue = 69.693425;
+  const totalValue = useAccountBalance({
+    walletAddress: 'dhaiwat.eth',
+  });
+  console.log(totalValue);
+  // const totalValue = 69.693425;
 
   return (
     <Layout>
@@ -23,7 +28,7 @@ const Page: NextPage = () => {
             Total portfolio value
           </span>
           <span className="text-4xl font-semibold">
-            ${totalValue.toFixed(2)}
+            ${parseFloat(totalValue.data?.totalBalanceUsd as string).toFixed(2)}
           </span>
         </div>
 
