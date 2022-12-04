@@ -20,6 +20,7 @@ import { wrapProvider, ClientConfig } from '@account-abstraction/sdk';
 import { JsonRpcProvider } from '@ethersproject/providers';
 import { Contract, ethers, Signer } from 'ethers';
 import toast, { Toaster } from 'react-hot-toast';
+import BackButton from '../../../components/BackButton';
 
 const Page: NextPage = () => {
   const [beneficiaryAddress, setBeneficiaryAddress] = useState('');
@@ -71,13 +72,16 @@ const Page: NextPage = () => {
   return (
     <Layout>
       <Toaster />
-      <div className="p-4">
-        <h1 className="text-2xl font-bold">Manage Dead-man Switch</h1>
+      <div className="p-8">
+        <BackButton />
+        <h1 className="text-2xl mt-5 font-bold">Manage Dead-man Switch</h1>
 
         {doesSwitchAccountExist && (
           <div className="mt-4">
-            <h2 className="text-xl font-bold">Switch Account Already Set</h2>
-            <p className="mt-2">Address: {switchAccount as string}</p>
+            <h2 className="text-xl font-medium">Switch account already set</h2>
+            <p className="mt-2">
+              Address: <span className='bg-gray-100 font-mono rounded px-2 py-1'>{switchAccount as string}</span>
+            </p>
             <p className="mt-2">Timestamp diff: {triggerTimestamp as string}</p>
           </div>
         )}
