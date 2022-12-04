@@ -1,31 +1,69 @@
 import { NextPage } from 'next';
 import { useState } from 'react';
-import { useContractWrite, usePrepareContractWrite } from 'wagmi';
+import {
+  useContractWrite,
+  usePrepareContractWrite,
+  useProvider,
+  useSigner,
+} from 'wagmi';
 import { Button } from '../../../components/Button';
 import { Input } from '../../../components/Input';
 import { Layout } from '../../../components/Layout';
 import {
+  BUNDLER_URL,
+  ENTRYPOINT_ADDRESS,
   WALLET_CONTRACT_ABI,
   WALLET_CONTRACT_ADDRESS,
 } from '../../../constants';
 import { useDMS } from '../../../hooks/useDMS';
+import { wrapProvider, ClientConfig } from '@account-abstraction/sdk';
+import { JsonRpcProvider } from '@ethersproject/providers';
+import { Contract, ethers, Signer } from 'ethers';
 
 const Page: NextPage = () => {
   const [beneficiaryAddress, setBeneficiaryAddress] = useState('');
   const [timestampDiff, setTimestampDiff] = useState(0);
 
-  const { config } = usePrepareContractWrite({
-    address: WALLET_CONTRACT_ADDRESS,
-    abi: WALLET_CONTRACT_ABI,
-    functionName: 'setSwitch',
-    args: [beneficiaryAddress, timestampDiff],
-  });
-  const { write, isSuccess, isLoading, isError } = useContractWrite(config);
-
+  const provider = useProvider();
+  const { data: signer } = useSigner();
+  const sdkConfig: ClientConfig = {
+    entryPointAddress: ENTRYPOINT_ADDRESS,
+    bundlerUrl: BUNDLER_URL,
+  };
   const { doesSwitchAccountExist, switchAccount, triggerTimestamp } = useDMS();
 
   const setSwitch = async () => {
-    write?.();
+    const aaProvider = await wrapProvider(
+      provider as JsonRpcProvider,
+      sdkConfig,
+      signer as Signer
+    );
+    const aaSigner = aaProvider.getSigner();
+    const phantomAddress = await aaSigner.getAddress();
+    console.log({ phantomAddress });
+    const tx = await signer?.sendTransaction({
+      to: phantomAddress,
+      value: ethers.utils.parseEther('0.1'),
+      gasLimit: (15e6).toString(),
+    });
+    console.log({ tx });
+    await tx?.wait();
+
+    console.log(WALLET_CONTRACT_ADDRESS);
+    // const tx = await signer?.sendTransaction({
+    //   to: WALLET_CONTRACT_ADDRESS,
+    //   value: ethers.utils.parseEther('0.1'),
+    //   gasLimit: 15_000_000,
+    // });
+    // await tx?.wait();
+    const contract = new Contract(
+      WALLET_CONTRACT_ADDRESS,
+      WALLET_CONTRACT_ABI,
+      aaSigner
+    );
+    await contract.setSwitch(beneficiaryAddress, timestampDiff, {
+      gasLimit: 15_000_000,
+    });
   };
 
   return (
