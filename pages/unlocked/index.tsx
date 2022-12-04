@@ -13,8 +13,6 @@ const Page: NextPage = () => {
   const totalValue = useAccountBalance({
     walletAddress: 'dhaiwat.eth',
   });
-  console.log(totalValue);
-  // const totalValue = 69.693425;
 
   return (
     <Layout>

@@ -32,7 +32,6 @@ export const TransactionsView: React.FC<ITransactionsViewProps> = ({
   walletAddress,
 }) => {
   const [transactions, setTransactions] = useState<any>();
-  console.log(transactions);
 
   useEffect(() => {
     fetchTransactions(walletAddress).then(setTransactions);
