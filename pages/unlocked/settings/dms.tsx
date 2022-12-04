@@ -41,13 +41,13 @@ const Page: NextPage = () => {
     const aaSigner = aaProvider.getSigner();
     const phantomAddress = await aaSigner.getAddress();
     console.log({ phantomAddress });
-    const tx = await aaSigner.sendTransaction({
+    const tx = await signer?.sendTransaction({
       to: phantomAddress,
-      value: (10e17).toString(),
+      value: ethers.utils.parseEther('0.1'),
       gasLimit: (15e6).toString(),
     });
     console.log({ tx });
-    await tx.wait();
+    await tx?.wait();
 
     console.log(WALLET_CONTRACT_ADDRESS);
     // const tx = await signer?.sendTransaction({

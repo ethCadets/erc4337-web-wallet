@@ -23,7 +23,7 @@ import { GlobalContext } from '../contexts';
 import { useState } from 'react';
 
 const { chains, provider } = configureChains(
-  [chain.localhost],
+  [chain.polygonMumbai],
   [
     alchemyProvider({ apiKey: process.env.NEXT_PUBLIC_ALCHEMY_ID as string }),
     publicProvider(),
