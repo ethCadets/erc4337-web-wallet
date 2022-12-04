@@ -21,6 +21,9 @@ import { JsonRpcProvider } from '@ethersproject/providers';
 import { ethers, Signer } from 'ethers';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { useAccountBalance } from 'ankr-react';
+import { useSendTransaction, usePrepareSendTransaction } from 'wagmi'
+import {BigNumber} from 'ethers'
+import { sendTransaction } from '@wagmi/core';
 
 interface IWalletCardProps {
   address: string;
@@ -33,6 +36,9 @@ const WalletCard: FC<IWalletCardProps> = ({ address, tag }) => {
     // @ts-expect-error
     address,
   });
+  
+
+
 
   return (
     <div className="flex flex-col items-start justify-center p-4 space-y-2 bg-white border border-gray-300 rounded-md w-full">
@@ -52,6 +58,14 @@ const WalletCard: FC<IWalletCardProps> = ({ address, tag }) => {
 };
 
 export const Sidebar = () => {
+
+
+  const { config } = usePrepareSendTransaction({
+    request: { to: 'moxey.eth', value: BigNumber.from('10000000000000000') },
+  })
+  const { data, isLoading, isSuccess, sendTransaction } =
+  useSendTransaction(config)
+
   const router = useRouter();
 
   const openDashboard = () => {
@@ -96,20 +110,22 @@ export const Sidebar = () => {
     // });
     // const res = await tx.wait();
     // console.log(res);
-    const owner = signer as Signer;
-    const walletAPI = new SimpleAccountAPI({
-      provider,
-      entryPointAddress: ENTRYPOINT_ADDRESS,
-      owner,
-      factoryAddress: '0x923F3250C2c3c29b13921C1665a83Ac835514c65',
-    });
-    const op = await walletAPI.createSignedUserOp({
-      target: sendToWalletAddress,
-      value: ethers.utils.parseEther(sendAmount),
-      data: '0x',
-      gasLimit: '15000000',
-    });
-    console.log(op);
+await sendTransaction?.()
+
+    // const owner = signer as Signer;
+    // const walletAPI = new SimpleAccountAPI({
+    //   provider,
+    //   entryPointAddress: ENTRYPOINT_ADDRESS,
+    //   owner,
+    //   factoryAddress: '0x923F3250C2c3c29b13921C1665a83Ac835514c65',
+    // });
+    // const op = await walletAPI.createSignedUserOp({
+    //   target: sendToWalletAddress,
+    //   value: ethers.utils.parseEther(sendAmount),
+    //   data: '0x',
+    //   gasLimit: '15000000',
+    // });
+    // console.log(op);
   };
 
   const totalValue = useAccountBalance({
