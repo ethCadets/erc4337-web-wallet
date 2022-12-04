@@ -20,6 +20,7 @@ import {
 import { JsonRpcProvider } from '@ethersproject/providers';
 import { ethers, Signer } from 'ethers';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
+import { useAccountBalance } from 'ankr-react';
 
 interface IWalletCardProps {
   address: string;
@@ -38,7 +39,7 @@ const WalletCard: FC<IWalletCardProps> = ({ address, tag }) => {
       <div className="flex flex-col space-y-1">
         <p className="text-sm font-normal">{tag}</p>
         <p className="text-sm text-gray-500">
-          {truncateWalletAddress(address)}
+          {address.length ? truncateWalletAddress(address) : ''}
         </p>
       </div>
       <div className="flex items-center justify-center space-x-1">
@@ -111,14 +112,30 @@ export const Sidebar = () => {
     console.log(op);
   };
 
+  const totalValue = useAccountBalance({
+    walletAddress: 'dhaiwat.eth',
+  });
+
+  // React Modal styling config
+  const modalConfig = {
+    content: {
+      top: '50%',
+      left: '50%',
+      right: 'auto',
+      bottom: 'auto',
+      marginRight: '-50%',
+      transform: 'translate(-50%, -50%)',
+    },
+  };
+
   return (
     <>
       <Modal
         isOpen={sendModalOpen}
         onRequestClose={() => setSendModalOpen(false)}
+        style={modalConfig}
       >
         <h3 className="text-2xl font-bold">Send</h3>
-
         <div className="flex flex-col space-y-4">
           <div className="flex flex-col space-y-1">
             <label htmlFor="send-to-address">Send to address</label>
@@ -147,17 +164,20 @@ export const Sidebar = () => {
         </div>
       </Modal>
 
+      {/* QR Modal */}
       <Modal
         isOpen={receiveModalOpen}
         onRequestClose={() => setReceiveModalOpen(false)}
+        style={modalConfig}
       >
-        <h3 className="text-2xl font-bold">Receive</h3>
-
+        <p className="text-2xl p-4 font-bold">Receive</p>
         <img src="https://raw.githubusercontent.com/remiroyc/react-ethereum/master/images/qrcode-sample.png" />
       </Modal>
 
       <div className="flex flex-col flex-1 min-h-0 text-neutral-900 border-r border-neutral-200">
-        <ConnectButton />
+        <div className="flex pt-8 pb-5 justify-center">
+          <ConnectButton />
+        </div>
 
         <div className="flex flex-col flex-1 px-4 pt-5 pb-4 overflow-y-auto">
           <div className="flex gap-x-4 items-center mb-2 pl-2 py-1 rounded-lg hover:bg-gray-100">
@@ -166,7 +186,12 @@ export const Sidebar = () => {
             </div>
             <div className="flex flex-col">
               <span className="text-base text-gray-600">All accounts</span>
-              <span className="text-lg">$69.69</span>
+              <span className="text-lg">
+                $
+                {parseFloat(totalValue.data?.totalBalanceUsd as string).toFixed(
+                  2
+                )}
+              </span>
             </div>
           </div>
 

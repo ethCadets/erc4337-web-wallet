@@ -6,6 +6,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import { useSignMessage } from 'wagmi';
 
 
+import BackButton from '../../../components/BackButton';
 
 const Page: NextPage = () => {
 
@@ -25,13 +26,14 @@ const Page: NextPage = () => {
   return (
     <Layout>
       <Toaster />
-      <div className="p-4">
-        <h1 className="text-2xl font-bold">Guardians</h1>
+      <div className="p-8">
+        <BackButton />
+        <h1 className="text-2xl mt-5 font-bold">Guardians</h1>
         <h4 className="text-slate-700">
           Setup social recovery for your wallet
         </h4>
 
-        <div className="flex flex-col space-y-4 mt-6">
+        <div className="flex flex-col space-y-4 mt-6 max-w-lg">
           <div className="flex flex-col space-y-2">
             <label className="text-slate-700">Guardian 1</label>
             <input

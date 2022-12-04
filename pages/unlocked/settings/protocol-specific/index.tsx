@@ -4,6 +4,7 @@ import { useState, FC } from 'react';
 import { Button } from '../../../../components/Button';
 import { Layout } from '../../../../components/Layout';
 import { PlusIcon } from '@heroicons/react/24/solid';
+import BackButton from '../../../../components/BackButton';
 
 interface IContractCardProps {
   address: string;
@@ -33,7 +34,8 @@ const Page: NextPage = () => {
   return (
     <Layout>
       <div className="py-10 px-4 max-w-xl">
-        <p className="text-2xl font-bold">Protocol specific security</p>
+        <BackButton />
+        <p className="text-2xl mt-5 font-bold">Protocol specific security</p>
 
         <div className="flex flex-col mt-4">
           <label>Add a new contract</label>

@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import { FC } from 'react';
 import { Layout } from '../../../components/Layout';
 import { ChevronRightIcon } from '@heroicons/react/24/solid';
+import BackButton from '../../../components/BackButton';
 
 interface ISettingsCardProps {
   title: string;
@@ -44,7 +45,7 @@ const SettingCard: FC<ISettingsCardProps> = ({ title, description, route }) => {
         <h3 className="text-xl font-bold">{title}</h3>
         <p>{description}</p>
       </div>
-      <ChevronRightIcon className='w-5 text-gray-500 group-hover:text-gray-800 group-hover:translate-x-1 transition duration-200' />
+      <ChevronRightIcon className="w-5 text-gray-500 group-hover:text-gray-800 group-hover:translate-x-1 transition duration-200" />
     </div>
   );
 };
@@ -53,6 +54,7 @@ const Page: NextPage = () => {
   return (
     <Layout>
       <div className="flex flex-col gap-y-8 p-8 min-h-screen bg-gray-100">
+        <BackButton />
         <div className="w-full flex flex-row gap-x-5">
           <p className=" text-[32px] font-semibold">Settings</p>
         </div>

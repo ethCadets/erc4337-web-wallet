@@ -1,6 +1,7 @@
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import BackButton from '../../../../../components/BackButton';
 import { Button } from '../../../../../components/Button';
 import { Layout } from '../../../../../components/Layout';
 import { extractListOfFunctionsFromABI, getABI } from '../../../../../utils';
@@ -22,15 +23,18 @@ const Page: NextPage = () => {
 
   return (
     <Layout>
-      <div className="p-4">
-        <h1 className="text-2xl font-bold">Configure contract allowance</h1>
-        <p>Address: {address}</p>
+      <div className="p-8">
+        <BackButton />
+        <div className='my-8'>
+          <h1 className="text-2xl font-bold">Configure contract allowance</h1>
+          <p>Address: {address}</p>
+        </div>
 
-        <div className="flex flex-col mt-4 gap-4">
+        <div className="flex flex-col mt-4 gap-4 ">
           {functions.map((func) => {
             return (
-              <div className="flex border border-gray-300 p-2 rounded items-center">
-                <p>{func.name}</p>
+              <div className="flex flex-row justify-between border border-gray-300 px-4 py-2 rounded-lg items-center max-w-md">
+                <p className="font-medium">{func.name}</p>
                 <Button className="ml-8">Allow</Button>
               </div>
             );
