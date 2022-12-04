@@ -3,11 +3,20 @@ import { useState } from 'react';
 import { Button } from '../../../components/Button';
 import { Layout } from '../../../components/Layout';
 import toast, { Toaster } from 'react-hot-toast';
+import { useSignMessage } from 'wagmi';
+
+
 
 const Page: NextPage = () => {
+
+
   const [walletAddresses, setWalletAddresses] = useState<string[]>([]);
+  const { data, isError, isLoading, isSuccess, signMessage } = useSignMessage({
+    message: 'Adding Guardians to the ERC4337 Wallet',
+  })
 
   const onSubmit = async () => {
+    signMessage()
     toast.success('Guardian addresses updated', {
       position: 'bottom-center',
     });
